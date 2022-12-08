@@ -22,7 +22,7 @@ export class CityWeather extends Component<CityWeatherProps, CityWeatherState> {
     };
   }
 
-  public componentDidMount() {
+  public fetchWeatherDetails() {
     const { city } = this.props;
     fetch(
       `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}`
@@ -32,6 +32,21 @@ export class CityWeather extends Component<CityWeatherProps, CityWeatherState> {
         weatherTemp: KtoF(result?.main?.temp),
         weatherDesc: result?.weather?.[0]?.description
       }));
+  }
+
+  public componentDidMount() {
+    this.fetchWeatherDetails();
+  }
+
+  public componentDidUpdate(prevProps) {
+    if (this.props.city !== prevProps.city) {
+      this.setState({
+        weatherTemp: 'Loading',
+        weatherDesc: 'Loading'
+      });
+
+      this.fetchWeatherDetails();
+    }
   }
 
   public render() {
