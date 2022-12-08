@@ -11,6 +11,7 @@ interface CityWeatherProps {
 interface CityWeatherState {
   weatherTemp: string,
   weatherDesc: string,
+  cityValid: boolean
 }
 
 export class CityWeather extends Component<CityWeatherProps, CityWeatherState> {
@@ -18,7 +19,8 @@ export class CityWeather extends Component<CityWeatherProps, CityWeatherState> {
     super(props);
     this.state = {
       weatherTemp: 'Loading',
-      weatherDesc: 'Loading'
+      weatherDesc: 'Loading',
+      cityValid: true
     };
   }
 
@@ -29,10 +31,20 @@ export class CityWeather extends Component<CityWeatherProps, CityWeatherState> {
     )
       .then((r) => r.json())
       .then((result) => {
+        if (result.cod === 200) {
           this.setState({
-          weatherTemp: KtoF(result?.main?.temp),
-          weatherDesc: result?.weather?.[0]?.description
-        })
+            weatherTemp: KtoF(result?.main?.temp),
+            weatherDesc: result?.weather?.[0]?.description,
+            cityValid: true
+          });
+        }
+
+        if (result.cod === '404') {
+          this.setState({
+            ... this.state,
+            cityValid: false
+          });
+        }
       });
   }
 
@@ -53,15 +65,21 @@ export class CityWeather extends Component<CityWeatherProps, CityWeatherState> {
 
   public render() {
     const { city } = this.props;
-    const { weatherTemp, weatherDesc } = this.state
+    const { weatherTemp, weatherDesc, cityValid } = this.state
 
     return (
       <div>
         <h1>{city}</h1>
-        <div>
-          Temperature: {weatherTemp}
-        </div>
-        <div>Descripiton: {weatherDesc}</div>
+        {cityValid ? (
+          <>
+            <div>
+              Temperature: {weatherTemp}
+            </div>
+            <div>Descripiton: {weatherDesc}</div>
+          </>
+        ) : (
+          <div>Unknown City</div>
+        )}
       </div>
     );
   }
