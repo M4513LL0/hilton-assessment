@@ -2,49 +2,89 @@
 import { Component } from "react";
 
 // to get api key: https://openweathermap.org/appid
-const API_KEY = "<insert your api key here>";
+const API_KEY = "0f99a555086493083b07bcb92e3a0ad4";
 
 interface CityWeatherProps {
   city: string;
 }
 
 interface CityWeatherState {
-  weatherResult: any;
+  weatherTemp: string,
+  weatherDesc: string,
+  cityValid: boolean
 }
 
 export class CityWeather extends Component<CityWeatherProps, CityWeatherState> {
-  public constructor(props) {
+  public constructor(props: CityWeatherProps) {
     super(props);
     this.state = {
-      weatherResult: null
+      weatherTemp: 'Loading',
+      weatherDesc: 'Loading',
+      cityValid: true
     };
   }
 
-  public componentDidMount() {
+  public fetchWeatherDetails() {
     const { city } = this.props;
     fetch(
       `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}`
     )
       .then((r) => r.json())
-      .then((result) => this.setState({ weatherResult: result }));
+      .then((result) => {
+        if (result.cod === 200) {
+          this.setState({
+            weatherTemp: KtoF(result?.main?.temp),
+            weatherDesc: result?.weather?.[0]?.description,
+            cityValid: true
+          });
+        }
+
+        if (result.cod === '404') {
+          this.setState({
+            ... this.state,
+            cityValid: false
+          });
+        }
+      });
+  }
+
+  public componentDidMount() {
+    this.fetchWeatherDetails();
+  }
+
+  public componentDidUpdate(prevProps: CityWeatherProps) {
+    if (this.props.city !== prevProps.city) {
+      this.setState({
+        weatherTemp: 'Loading',
+        weatherDesc: 'Loading'
+      });
+
+      this.fetchWeatherDetails();
+    }
   }
 
   public render() {
     const { city } = this.props;
-    const { weatherResult } = this.state;
+    const { weatherTemp, weatherDesc, cityValid } = this.state
 
     return (
       <div>
         <h1>{city}</h1>
-        <div>
-          Temperature: {KtoF(weatherResult.main.temp).toFixed(0)} &#8457;
-        </div>
-        <div>Descripiton: {weatherResult.weather[0].description}</div>
+        {cityValid ? (
+          <>
+            <div>
+              Temperature: {weatherTemp}
+            </div>
+            <div>Descripiton: {weatherDesc}</div>
+          </>
+        ) : (
+          <div>Unknown City</div>
+        )}
       </div>
     );
   }
 }
 
-function KtoF(tempKevlin: number) {
-  return ((tempKevlin - 273.15) * 9) / 5 + 32;
+function KtoF(tempKevlin: number) : string {
+  return (((tempKevlin - 273.15) * 9) / 5 + 32).toFixed(0) + String.fromCharCode(8457);
 }
