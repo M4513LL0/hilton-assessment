@@ -2,7 +2,7 @@
 import { Component } from "react";
 
 // to get api key: https://openweathermap.org/appid
-const API_KEY = "875192f27ae927254d0ff129247e95ef";
+const API_KEY = "0f99a555086493083b07bcb92e3a0ad4";
 
 interface CityWeatherProps {
   city: string;
@@ -28,10 +28,12 @@ export class CityWeather extends Component<CityWeatherProps, CityWeatherState> {
       `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}`
     )
       .then((r) => r.json())
-      .then((result) => this.setState({
-        weatherTemp: KtoF(result?.main?.temp),
-        weatherDesc: result?.weather?.[0]?.description
-      }));
+      .then((result) => {
+          this.setState({
+          weatherTemp: KtoF(result?.main?.temp),
+          weatherDesc: result?.weather?.[0]?.description
+        })
+      });
   }
 
   public componentDidMount() {
