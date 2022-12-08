@@ -2,7 +2,7 @@
 import { Component } from "react";
 
 // to get api key: https://openweathermap.org/appid
-const API_KEY = "<insert your api key here>";
+const API_KEY = "875192f27ae927254d0ff129247e95ef";
 
 interface CityWeatherProps {
   city: string;
@@ -37,9 +37,9 @@ export class CityWeather extends Component<CityWeatherProps, CityWeatherState> {
       <div>
         <h1>{city}</h1>
         <div>
-          Temperature: {KtoF(weatherResult.main.temp).toFixed(0)} &#8457;
+          Temperature: {KtoF(weatherResult?.main?.temp).toFixed(0) || 'Loading'} &#8457;
         </div>
-        <div>Descripiton: {weatherResult.weather[0].description}</div>
+        <div>Descripiton: {weatherResult?.weather?.[0]?.description}</div>
       </div>
     );
   }
