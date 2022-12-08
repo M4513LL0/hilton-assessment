@@ -1,3 +1,9 @@
+## Project Setup
+Run the following commands:
+- `nvm use`
+- `npm install`
+- `npm run dev`
+
 ## Hilton Dev Assessment
 
 For this code assessment, we expect you to make the changes listed in the `Deliverables` sections and then email us the link to your codesandbox instance that has your changes. (As soon as you make a change and save it, it will fork this project and create a unique url for you).
