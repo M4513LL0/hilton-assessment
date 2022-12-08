@@ -9,14 +9,16 @@ interface CityWeatherProps {
 }
 
 interface CityWeatherState {
-  weatherResult: any;
+  weatherTemp: string,
+  weatherDesc: string,
 }
 
 export class CityWeather extends Component<CityWeatherProps, CityWeatherState> {
   public constructor(props) {
     super(props);
     this.state = {
-      weatherResult: null
+      weatherTemp: 'Loading',
+      weatherDesc: 'Loading'
     };
   }
 
@@ -26,25 +28,28 @@ export class CityWeather extends Component<CityWeatherProps, CityWeatherState> {
       `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}`
     )
       .then((r) => r.json())
-      .then((result) => this.setState({ weatherResult: result }));
+      .then((result) => this.setState({
+        weatherTemp: KtoF(result?.main?.temp),
+        weatherDesc: result?.weather?.[0]?.description
+      }));
   }
 
   public render() {
     const { city } = this.props;
-    const { weatherResult } = this.state;
+    const { weatherTemp, weatherDesc } = this.state
 
     return (
       <div>
         <h1>{city}</h1>
         <div>
-          Temperature: {KtoF(weatherResult?.main?.temp).toFixed(0) || 'Loading'} &#8457;
+          Temperature: {weatherTemp}
         </div>
-        <div>Descripiton: {weatherResult?.weather?.[0]?.description}</div>
+        <div>Descripiton: {weatherDesc}</div>
       </div>
     );
   }
 }
 
-function KtoF(tempKevlin: number) {
-  return ((tempKevlin - 273.15) * 9) / 5 + 32;
+function KtoF(tempKevlin: number) : string {
+  return (((tempKevlin - 273.15) * 9) / 5 + 32).toFixed(0) + String.fromCharCode(8457);
 }
