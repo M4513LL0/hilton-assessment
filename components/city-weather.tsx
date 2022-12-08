@@ -14,7 +14,7 @@ interface CityWeatherState {
 }
 
 export class CityWeather extends Component<CityWeatherProps, CityWeatherState> {
-  public constructor(props) {
+  public constructor(props: CityWeatherProps) {
     super(props);
     this.state = {
       weatherTemp: 'Loading',
@@ -40,7 +40,7 @@ export class CityWeather extends Component<CityWeatherProps, CityWeatherState> {
     this.fetchWeatherDetails();
   }
 
-  public componentDidUpdate(prevProps) {
+  public componentDidUpdate(prevProps: CityWeatherProps) {
     if (this.props.city !== prevProps.city) {
       this.setState({
         weatherTemp: 'Loading',
