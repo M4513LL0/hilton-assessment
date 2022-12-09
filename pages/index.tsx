@@ -1,5 +1,5 @@
 import { useState, KeyboardEvent } from 'react'
-import { CityWeather } from '../components/city-weather'
+import CityWeather from '../components/city-weather-refactor'
 
 export default function IndexPage() {
   const [cityInput, setCityInput] = useState<string | null>(null)

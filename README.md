@@ -1,4 +1,13 @@
 ## Project Setup
+Clone the repository:
+- `git clone git@github.com:M4513LL0/hilton-assessment.git`
+- `cd hilton-assessment`
+
+Create your `.env.local` file:
+- `echo 'NEXT_PUBLIC_OPEN_WEATHER_API_KEY' > .env.local`
+- Create an API key at [Open Weather](https://openweathermap.org/api)
+- Add the new key to your `.env.local` file
+
 Run the following commands:
 - `nvm use`
 - `npm install`
