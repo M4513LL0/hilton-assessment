@@ -3,7 +3,16 @@ import fetcher from 'services/fetcher'
 import getWeatherByCity from 'services/openWeather/endpoints/getWeatherByCity'
 import kelvinToFahrenheit from 'utils/kelvinToFahrenheit'
 
-export default function useGetWeatherData(city) {
+interface WeatherData {
+  temp: string
+  desc: string
+  icon: string
+  cityUnknown: boolean
+  isLoading: boolean
+  isError: any
+}
+
+export default function useGetWeatherData(city: string): WeatherData {
   const { data, error } = useSWR(
     getWeatherByCity(city),
     fetcher

@@ -13,24 +13,21 @@ interface CityWeatherProps {
 }
 
 // CityWeather component
-export default function CityWeather(props: CityWeatherProps) {
-  const { city } = props
+export default function CityWeather({ city }: CityWeatherProps) {
   const { temp, desc, icon, cityUnknown, isLoading, isError } =
     useGetWeatherData<string>(city)
 
   return (
-    <div className={styles.container} aria-live="polite" aria-busy={isLoading ? 'true' : 'false'}>
-      {isError && (
-        <div>Sorry, there was an error!</div>
-      )}
+    <div
+      className={styles.container}
+      aria-live="polite"
+      aria-busy={isLoading ? 'true' : 'false'}
+    >
+      {isError && <div>Sorry, there was an error!</div>}
 
-      {isLoading && (
-        <div>Loading ...</div>
-      )}
+      {isLoading && <div>Loading ...</div>}
 
-      {cityUnknown && (
-        <div>Unknown City</div>
-      )}
+      {cityUnknown && <div>Unknown City</div>}
 
       {!isLoading && !isError && !cityUnknown && (
         <>

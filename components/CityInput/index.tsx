@@ -6,12 +6,11 @@ import styles from './styles'
 
 // interfaces
 interface CityInputProps {
-  setCity(city: string): void
+  setCity: (city: string) => void
 }
 
 // CityInput component
-export default function CityInput(props: CityInputProps) {
-  const { setCity } = props
+export default function CityInput({ setCity }: CityInputProps) {
   const [cityInput, setCityInput] = useState<string>('')
 
   const submitCity = (): void => {
@@ -19,7 +18,7 @@ export default function CityInput(props: CityInputProps) {
     setCityInput('')
   }
 
-  const handleUpdate = (event: KeyboardEvent<HTMLInputElement>) => {
+  const handleUpdate = (event: KeyboardEvent<HTMLInputElement>): void => {
     if (event.key === 'Enter') {
       submitCity()
     } else {
@@ -27,7 +26,7 @@ export default function CityInput(props: CityInputProps) {
     }
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = (): void => {
     submitCity()
   }
 

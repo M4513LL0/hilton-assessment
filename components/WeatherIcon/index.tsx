@@ -1,11 +1,15 @@
 interface WeatherIconProps {
-  icon: string,
+  icon: string
   desc: string
 }
 
-export default function WeatherIcon(props: WeatherIconProps) {
-  const { icon, desc } = props
-  const iconURL = `http://openweathermap.org/img/wn/${icon}@2x.png`
-
-  return <img src={iconURL} width="100px" height="100px" alt={`An icon depicting ${desc}.`} />
+export default function WeatherIcon({ icon, desc }: WeatherIconProps) {
+  return (
+    <img
+      src={`http://openweathermap.org/img/wn/${icon}@2x.png`}
+      width="100px"
+      height="100px"
+      alt={`An icon depicting ${desc}.`}
+    />
+  )
 }
