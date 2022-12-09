@@ -1,23 +1,28 @@
+// react imports
 import { useState, KeyboardEvent } from 'react'
 
 // component imports
 import CityInput from 'components/CityInput/'
 import CityWeather from 'components/CityWeather/'
 
+// style imports
+import styles from './styles'
+
+// IndexPage component
 export default function IndexPage() {
   const [city, setCity] = useState<string>('')
 
   return (
-    <div className="py-2">
+    <div className={styles.appContainer}>
       <CityInput {...{ setCity }} />
 
-      {city ? (
-        <div className="mt-4">
+      <div className={styles.weatherContainer}>
+        {city ? (
           <CityWeather {...{city }} />
-        </div>
-      ) : (
-        <div>Enter a city!</div>
-      )}
+        ) : (
+          <div>Enter a city!</div>
+        )}
+      </div>
     </div>
   )
 }

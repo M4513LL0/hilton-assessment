@@ -4,15 +4,15 @@ import getWeatherByCity from 'services/openWeather/endpoints/getWeatherByCity'
 import kelvinToFahrenheit from 'utils/kelvinToFahrenheit'
 
 export default function useGetWeatherData(city) {
-  console.log(getWeatherByCity(city))
   const { data, error } = useSWR(
     getWeatherByCity(city),
     fetcher
   )
 
   return {
-    weatherTemp: kelvinToFahrenheit(data?.main?.temp),
-    weatherDesc: data?.weather?.[0]?.description,
+    temp: kelvinToFahrenheit(data?.main?.temp),
+    desc: data?.weather?.[0]?.description,
+    icon: data?.weather?.[0]?.icon,
     cityUnknown: data?.cod === '404' ? true : false,
     isLoading: !error && !data,
     isError: error

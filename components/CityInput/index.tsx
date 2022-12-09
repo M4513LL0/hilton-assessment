@@ -1,9 +1,15 @@
+// react imports
 import { useState, KeyboardEvent } from 'react'
 
+// style imports
+import styles from './styles'
+
+// interfaces
 interface CityInputProps {
   setCity(city: string): void
 }
 
+// CityInput component
 export default function CityInput(props: CityInputProps) {
   const { setCity } = props
   const [cityInput, setCityInput] = useState<string>('')
@@ -16,8 +22,7 @@ export default function CityInput(props: CityInputProps) {
   const handleUpdate = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       submitCity()
-    }
-    else {
+    } else {
       setCityInput(event.currentTarget.value)
     }
   }
@@ -28,10 +33,16 @@ export default function CityInput(props: CityInputProps) {
 
   return (
     <div>
-      <span>Weather Search:</span>{' '}
+      <label
+        htmlFor="weather-input"
+        className={styles.label}
+      >
+        Weather Search:
+      </label>
       <input
+        id="weather-input"
         data-testid="weather-input"
-        className="ml-2 border px-2 py-1 border-black"
+        className={styles.input}
         type="text"
         name="city"
         onChange={handleUpdate}
@@ -39,7 +50,7 @@ export default function CityInput(props: CityInputProps) {
         value={cityInput}
       />
       <button
-        className="ml-2 text-sm border rounded-lg p-2"
+        className={styles.button}
         type="submit"
         onClick={handleSubmit}
       >
