@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-export default function useGetApiKey(): string {
+export default function useGetApiKey() {
   const [apiKey, setApiKey] = useState<string>('')
 
   useEffect(() => {
